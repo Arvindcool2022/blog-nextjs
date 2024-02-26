@@ -1,11 +1,15 @@
 import { cn } from '@/lib/utils';
-import React from 'react';
+import Link from 'next/link';
 
-const H1 = ({ children, className }) => {
+const H1 = ({ children, className, as, ...props }) => {
+  const Tag = as === 'link' ? Link : 'h1';
   return (
-    <h1 className={cn('text-7xl text-red-600 font-semibold  my-4', className)}>
+    <Tag
+      className={cn('my-4 text-7xl font-semibold  text-red-600', className)}
+      {...props}
+    >
       {children}
-    </h1>
+    </Tag>
   );
 };
 
