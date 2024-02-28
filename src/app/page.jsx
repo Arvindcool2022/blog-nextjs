@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 export default function Home() {
   return (
-    <section className="container mx-auto flex flex-col  text-center md:p-4 lg:flex-row lg:text-left">
+    <section className="container mx-auto flex flex-col text-center md:px-4 lg:flex-row lg:px-20 lg:text-left">
       <div className=" flex flex-1 flex-col gap-12">
         <H1 className="text-6xl font-extrabold text-gray-500 md:text-8xl">
           Creative Thoughts Agency.

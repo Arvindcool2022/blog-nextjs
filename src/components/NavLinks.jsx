@@ -6,8 +6,8 @@ import { usePathname } from 'next/navigation';
 const routes = [
   { href: '/', name: 'home' },
   { href: '/about', name: 'about' },
-  { href: '/blog', name: 'blog' },
-  { href: '/contact', name: 'contact' }
+  { href: '/contact', name: 'contact' },
+  { href: '/blog', name: 'blog' }
   // { href: '/forgot_password', name: 'forgot_password' },
   // { href: '/signup', name: 'signup' }
 ];

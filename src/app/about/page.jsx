@@ -9,7 +9,7 @@ export default function Page() {
     { num: 500, h1: '+', desc: 'Successful Products' }
   ];
   return (
-    <div className="container mx-auto my-10 flex flex-col gap-24 text-center md:flex-row md:text-left lg:px-6">
+    <section className="container mx-auto my-10 flex flex-col gap-24 text-center md:flex-row md:text-left lg:px-20">
       <div className=" flex flex-1 flex-col gap-12">
         <h2 className="text-indigo-600">About Agency</h2>
         <h1 className="text-5xl">
@@ -36,6 +36,6 @@ export default function Page() {
           className="object-contain"
         />
       </div>
-    </div>
+    </section>
   );
 }
