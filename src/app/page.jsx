@@ -34,7 +34,7 @@ export default function Home() {
       </div>
       <div className="relative flex-1 ">
         {/* needs fixing */}
-        <Image src="/hero.gif" alt="" fill />
+        <Image src="/hero.gif" alt="hero" priority fill />
       </div>
     </section>
   );

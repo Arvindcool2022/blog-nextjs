@@ -15,7 +15,7 @@ const Header = () => {
           Code Chronicle
         </H1> */}
         <Link href="/" className="relative inline-block h-14 w-64">
-          <Image src="/logo.jpeg" fill />
+          <Image src="/logo.jpeg" fill alt="logo" />
         </Link>
         <button className="sm:hidden" onClick={() => setIsopen(p => !p)}>
           {isOpen ? <BiX size="2em" /> : <BiMenu size="2em" />}
