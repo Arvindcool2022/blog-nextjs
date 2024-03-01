@@ -1,5 +1,4 @@
 import Stats from '@/components/Stats';
-import H1 from '@/components/ui/H1';
 import Image from 'next/image';
 
 export default function Page() {

@@ -7,7 +7,8 @@ const routes = [
   { href: '/', name: 'home' },
   { href: '/about', name: 'about' },
   { href: '/contact', name: 'contact' },
-  { href: '/blog', name: 'blog' }
+  { href: '/blog', name: 'blog' },
+  { href: '/fetchtest', name: 'test' }
   // { href: '/forgot_password', name: 'forgot_password' },
   // { href: '/signup', name: 'signup' }
 ];
