@@ -1,6 +1,12 @@
 import mongoose from 'mongoose';
+
 const userSchema = new mongoose.Schema(
   {
+    id: {
+      type: String,
+      required: true,
+      unique: true
+    },
     username: {
       type: String,
       required: true,
@@ -15,9 +21,7 @@ const userSchema = new mongoose.Schema(
       max: 50
     },
     password: {
-      type: String,
-      required: true,
-      min: 6
+      type: String
     },
     img: {
       type: String
@@ -29,3 +33,40 @@ const userSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+const postSchema = new mongoose.Schema(
+  {
+    title: {
+      type: String,
+      required: true
+    },
+    desc_highlight: {
+      type: String,
+      required: true
+    },
+    body: {
+      type: String,
+      required: true
+    },
+    date: {
+      type: String,
+      required: true
+    },
+    img: {
+      type: String
+    },
+    userId: {
+      type: Number,
+      required: true
+    },
+    id: {
+      type: Number,
+      required: true,
+      unique: true
+    }
+  },
+  { timestamps: true }
+);
+
+export const User = mongoose.models?.User || mongoose.model('User', userSchema);
+export const Post = mongoose.models?.Post || mongoose.model('Post', postSchema);

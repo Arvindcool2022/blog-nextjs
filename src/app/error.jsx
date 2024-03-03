@@ -4,7 +4,6 @@ import { useRouter } from 'next/navigation';
 
 const error = () => {
   const router = useRouter();
-  console.log(router);
 
   const handleClick = () => {
     router.push('/');

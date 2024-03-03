@@ -1,16 +1,13 @@
 import PostAuthor from '@/components/PostAuthor';
-import { getPostData } from '@/lib/data';
+import { getPost } from '@/lib/data';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 
 export default async function Page({ params }) {
-  console.log(params);
-
   if (params.id > 10) notFound();
 
-  const postData = await getPostData(params.id);
-
+  const postData = await getPost(params.id);
   console.log(postData);
 
   return (

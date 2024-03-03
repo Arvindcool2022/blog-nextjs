@@ -1,3 +1,6 @@
+import connectToDB from './connectToDB';
+import { Post, User } from './modals';
+
 const codingArticles = [
   {
     id: 1,
@@ -24,7 +27,7 @@ const codingArticles = [
     date: '20 may 2023',
     desc_highlight:
       'Maintain code clarity and consistency with these valuable tips on organization and structure.',
-    body: 'Code organization is essential for maintaining clarity and consistency in large projects. In this article, we share best practices for structuring your codebase to improve readability, maintainability, and collaboration among team members. From choosing meaningful variable names to modularizing your code and using design patterns, we cover various strategies to tame the chaos and keep your codebase organized.'
+    body: 'Code organization is essential for maintaining clarity and consistency in large projects. In this article, we share best practices for structuring your codebase to improve readability, maintainability, and collaboration among team members. From choosing meaningful variable usernames to modularizing your code and using design patterns, we cover various strategies to tame the chaos and keep your codebase organized.'
   },
   {
     id: 4,
@@ -93,53 +96,81 @@ const codingArticles = [
 
 const users = [
   {
-    name: 'John Doe',
+    username: 'John Doe',
     id: 1,
     email: 'john@example.com',
-    age: 30,
-    status: 'active'
+    isAdmin: true
   },
   {
-    name: 'Jane Smith',
+    username: 'Jane Smith',
     id: 2,
     email: 'jane@example.com',
-    age: 25,
-    status: 'inactive'
+    isAdmin: true
   },
   {
-    name: 'Alice Johnson',
+    username: 'Alice Johnson',
     id: 3,
     email: 'alice@example.com',
-    age: 35,
-    status: 'active'
+    isAdmin: true
   },
   {
-    name: 'Bob Brown',
+    username: 'Bob Brown',
     id: 4,
     email: 'bob@example.com',
-    age: 28,
-    status: 'active'
+    isAdmin: true
   },
   {
-    name: 'Eva Wilson',
+    username: 'Eva Wilson',
     id: 5,
     email: 'eva@example.com',
-    age: 32,
-    status: 'inactive'
+    isAdmin: true
   }
 ];
 
-const getPostData = async id =>
-  codingArticles.find(article => article.id === parseInt(id));
-
-const getData = async () => codingArticles;
-
-const getUserData = async userId => {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(users.find(user => user.id === userId));
-    }, 1500);
-  });
+export const getPosts = async () => {
+  try {
+    connectToDB();
+    const posts = await Post.find();
+    console.log('connected to post');
+    return posts;
+  } catch (err) {
+    console.log('Failed to fetch posts!', err);
+    // throw new Error('Failed to fetch posts!');
+  }
 };
 
-export { getData, getPostData, getUserData };
+export const getPost = async id => {
+  try {
+    connectToDB();
+    console.log({ id: parseInt(id) });
+    const post = await Post.findOne({ id: parseInt(id) });
+    console.log(post);
+    return post;
+  } catch (err) {
+    console.log(err);
+    // throw new Error('Failed to fetch post!');
+  }
+};
+
+export const getUser = async id => {
+  noStore();
+  try {
+    connectToDB();
+    const user = await User.findById(id);
+    return user;
+  } catch (err) {
+    console.log(err);
+    // throw new Error('Failed to fetch user!');
+  }
+};
+
+export const getUsers = async () => {
+  try {
+    connectToDB();
+    const users = await User.find();
+    return users;
+  } catch (err) {
+    console.log(err);
+    // throw new Error('Failed to fetch users!');
+  }
+};
