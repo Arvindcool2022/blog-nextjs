@@ -144,7 +144,6 @@ export const getPost = async id => {
     connectToDB();
     console.log({ id: parseInt(id) });
     const post = await Post.findOne({ id: parseInt(id) });
-    console.log(post);
     return post;
   } catch (err) {
     console.log(err);
@@ -153,10 +152,10 @@ export const getPost = async id => {
 };
 
 export const getUser = async id => {
-  noStore();
+  // noStore();
   try {
     connectToDB();
-    const user = await User.findById(id);
+    const user = await User.findOne({ id: parseInt(id) });
     return user;
   } catch (err) {
     console.log(err);

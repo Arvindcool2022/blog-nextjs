@@ -8,7 +8,6 @@ export default async function Page({ params }) {
   if (params.id > 10) notFound();
 
   const postData = await getPost(params.id);
-  console.log(postData);
 
   return (
     <div className="flex gap-24 text-center md:text-left lg:p-8">
