@@ -4,6 +4,12 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 
+export const generateMetadata = async ({ params }) => {
+  const { title, desc_highlight: description } = await getPost(params.id);
+
+  return { title, description }; // dynamic meta data
+};
+
 export default async function Page({ params }) {
   if (params.id > 10) notFound();
 

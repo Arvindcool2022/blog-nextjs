@@ -7,7 +7,7 @@ import Header from '@/components/Header';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
-  title: 'Code Chronicle',
+  title: { default: 'Code Chronicle', template: '%s | Code Chronicle' },
   description:
     'Welcome to Code Chronicle: Your premier destination for coding insights, developer experiences, and system design strategies, with a focus on mastering LeetCode challenges. Explore our curated content for practical tips, expert advice, and in-depth discussions to enhance your coding skills. Join our vibrant community of developers and dive into the world of software development excellence at Code Chronicle!'
 };

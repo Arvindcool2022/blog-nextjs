@@ -16,6 +16,7 @@ const routes = [
 //temp
 const session = true;
 const admin = true;
+
 const NavLinks = ({ active, ...props }) => {
   const activePath = usePathname();
   return (

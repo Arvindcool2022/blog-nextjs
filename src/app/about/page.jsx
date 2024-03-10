@@ -1,6 +1,8 @@
 import Stats from '@/components/Stats';
 import Image from 'next/image';
 
+export const metadata = { title: 'About' };
+
 export default function Page() {
   const stats = [
     { num: 10, h1: '+', desc: 'Year of experience' },
@@ -21,10 +23,9 @@ export default function Page() {
           of web and software development services.
         </p>
         <div className=" flex flex-col items-center justify-between gap-12 md:flex-row">
-          {stats.map(stat => {
-            console.log(stat);
-            return <Stats data={stat} key={stat.num} />;
-          })}
+          {stats.map(stat => (
+            <Stats data={stat} key={stat.num} />
+          ))}
         </div>
       </div>
       <div className="relative flex-1">

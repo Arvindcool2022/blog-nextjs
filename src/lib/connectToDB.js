@@ -9,11 +9,12 @@ const connectToDB = async () => {
       return;
     }
 
+    console.log('connecting to DB');
     const db = await mongoose.connect(process.env.MONGO);
-    console.log('connect to DB', 'connected');
+    console.log('connected to DB');
     connection.isConnected = db.connection;
   } catch (error) {
-    console.log(error);
+    console.log(' failed to connect DB', error);
   }
 };
 

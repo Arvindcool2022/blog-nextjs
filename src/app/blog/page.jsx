@@ -2,9 +2,10 @@ import BlogCard from '@/components/BlogCard';
 import H1 from '@/components/ui/H1';
 import { getPosts } from '@/lib/data';
 
+export const metadata = { title: 'Articles' };
+
 export default async function Page() {
   const codingArticles = await getPosts();
-  console.log(codingArticles);
   return (
     <section className="container overflow-hidden lg:px-4">
       <H1 className="mb-6 text-gray-400">Articles</H1>
