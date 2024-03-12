@@ -1,7 +1,8 @@
-import { sample } from '@/lib/action';
-import React from 'react';
-
 const page = () => {
+  const sample = async () => {
+    'use server'; // can inline in server comp
+    console.log('hello');
+  };
   return (
     <div>
       <form action={sample}>

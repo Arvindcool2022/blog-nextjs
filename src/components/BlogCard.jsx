@@ -1,17 +1,27 @@
+import { formatDate } from '@/lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
 
 const BlogCard = ({ data }) => {
-  const img = Math.random() < 0.5 ? '/code1.jpg' : '/code2.jpg';
+  const img =
+    Math.random() < 0.5
+      ? 'https://images.pexels.com/photos/276452/pexels-photo-276452.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+      : 'https://images.pexels.com/photos/1714208/pexels-photo-1714208.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
+
   return (
     <div className="pe-2">
       <div className="relative aspect-square w-full">
-        <Image src={img} alt="xyz" className="object-cover" fill />
+        <Image
+          src={data?.img ? data.img : img}
+          alt="xyz"
+          className="object-cover"
+          fill
+        />
         <pre
           className="absolute left-full top-1/2 -translate-x-[40%] -translate-y-1/2
   rotate-[270deg] text-sm text-gray-600"
         >
-          {data.date}
+          {formatDate(data.date)}
         </pre>
       </div>
       <div className="mt-4 flex flex-col gap-4">

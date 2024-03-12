@@ -1,25 +1,33 @@
 import PostAuthor from '@/components/PostAuthor';
 import { getPost } from '@/lib/data';
+import { formatDate } from '@/lib/utils';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 
 export const generateMetadata = async ({ params }) => {
-  const { title, desc_highlight: description } = await getPost(params.id);
+  const postData = await getPost(params.id);
+  if (!postData) notFound();
+  const { title, desc_highlight: description } = postData;
 
   return { title, description }; // dynamic meta data
 };
 
 export default async function Page({ params }) {
-  if (params.id > 10) notFound();
-
   const postData = await getPost(params.id);
+  if (!postData) notFound();
 
   return (
     <div className="flex gap-24 text-center md:text-left lg:p-8">
       <div className="relative hidden h-[calc(100vh_-_200px)] flex-1 md:block">
         <Image
-          src={params.id % 2 ? '/code3.jpg' : '/code4.jpg'}
+          src={
+            postData?.img
+              ? postData.img
+              : params.id % 2
+                ? 'https://images.pexels.com/photos/276452/pexels-photo-276452.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+                : 'https://images.pexels.com/photos/1714208/pexels-photo-1714208.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+          }
           alt="blog image"
           fill
           className="hidden rounded object-cover md:block"
@@ -40,7 +48,7 @@ export default async function Page({ params }) {
           </div>
           <div className="mx-auto flex flex-col gap-2.5 md:mx-0">
             <span className="font-bold text-gray-400">Published</span>
-            <span className="font-medium">{postData.date}</span>
+            <span className="font-medium">{formatDate(postData.date)}</span>
           </div>
         </div>
         <div className="text-lg">{postData.body}</div>
