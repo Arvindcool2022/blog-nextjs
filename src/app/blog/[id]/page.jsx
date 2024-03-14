@@ -5,16 +5,23 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 
+async function getData(id) {
+  const res = await fetch(`${process.env.HOST}/api/blog/${id}`);
+  if (!res.ok) throw new Error('Failed to fetch data');
+  return res.json();
+}
+
 export const generateMetadata = async ({ params }) => {
-  const postData = await getPost(params.id);
+  // const postData = await getPost(params.id);
+  const postData = await getData(params.id);
   if (!postData) notFound();
   const { title, desc_highlight: description } = postData;
-
   return { title, description }; // dynamic meta data
 };
 
 export default async function Page({ params }) {
-  const postData = await getPost(params.id);
+  const postData = await getData(params.id);
+  // const postData = await getPost(params.id);
   if (!postData) notFound();
 
   return (

@@ -1,7 +1,7 @@
 'use server';
 
 import { Post } from './modals';
-import { revalidateTag } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { redirect } from 'next/navigation';
 import connectToDB from './connectToDB';
 
@@ -30,11 +30,8 @@ export const createPost = async (userId, formData) => {
       body,
       img = null
     } = Object.fromEntries(formData);
-    if (!userId || !title || !desc_highlight || !body) {
-      throw new Error(
-        { status: 400, message: 'Missing required fields' } // Handle missing data
-      );
-    }
+    if (!userId || !title || !desc_highlight || !body)
+      throw new Error({ status: 400, message: 'Missing required fields' });
 
     connectToDB();
     const posts = await Post.find();
@@ -50,16 +47,22 @@ export const createPost = async (userId, formData) => {
     });
     console.log(newPost);
     await newPost.save();
-
-    revalidateTag('blog'); // Update cached posts
-    redirect(`/blog/${id}`); // Navigate to the new post page
-    return {
-      status: 200,
-      message: 'Post created successfully!',
-      post: newPost
-    }; // Send success response
   } catch (err) {
     console.error(err);
-    return { status: 500, message: 'Error creating post' }; // Handle errors
   }
+  revalidateTag('blog'); // Update cached posts
+  redirect('/blog'); // Navigate to the new post page
+};
+export const deletePost = async formData => {
+  try {
+    const { id } = Object.fromEntries(formData);
+    if (!id) throw new Error({ status: 400, message: 'Missing id' });
+    connectToDB();
+    console.log('deletePost');
+    await Post.findOneAndDelete({ id });
+  } catch (err) {
+    console.error(err);
+  }
+  revalidatePath('/blog'); // Update cached posts
+  redirect('/blog');
 };
