@@ -1,14 +1,7 @@
 'use client';
 import H1 from '@/components/ui/H1';
-import { useRouter } from 'next/navigation';
 
 const error = () => {
-  const router = useRouter();
-
-  const handleClick = () => {
-    router.push('/');
-  };
-
   return (
     <div>
       <H1>error</H1>

@@ -1,6 +1,6 @@
 'use client';
 
-import useCountUp from '@/hooks/sxc';
+import useCountUp from '@/hooks/useCountUp';
 
 const Stats = ({ data }) => {
   const count = useCountUp(data.num, 2000);

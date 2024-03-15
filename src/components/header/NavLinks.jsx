@@ -49,7 +49,7 @@ function LinkLayout({ session }) {
           {route.name}
         </Links>
       ))}
-      {admin && (
+      {session?.user?.isAdmin && (
         <Links key="admin" href="/admin">
           admin
         </Links>

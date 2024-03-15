@@ -1,10 +1,10 @@
 'use server';
-
-import { Post } from './modals';
+import { Post, User } from './modals';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import connectToDB from './connectToDB';
 import { signIn, signOut } from './auth';
+import bcrypt from 'bcryptjs';
 
 let num = 1; // closure works
 export const sample = async formData => {
@@ -66,7 +66,7 @@ export const deletePost = async formData => {
   } catch (err) {
     console.error(err);
   }
-  revalidatePath('/blog'); // Update cached posts
+  revalidatePath('/blog');
   redirect('/blog');
 };
 
@@ -75,4 +75,45 @@ export const handleSignIn = async () => {
 };
 export const handleSignOut = async () => {
   await signOut();
+};
+
+export const register = async formData => {
+  try {
+    const { username, email, img, password, passwordRepeat } =
+      Object.fromEntries(formData);
+    if (!username || !email || !password) return 'Please fill all field';
+    if (password !== passwordRepeat) return 'Password do not match';
+    connectToDB();
+    const user = await User.findOne({ email });
+    if (user) return 'Email already registered';
+    const salt = await bcrypt.genSalt(10);
+    const hashPassword = await bcrypt.hash(password, salt);
+    const users = await User.find();
+    const id = users.length + 1;
+    const userData = { id, username, email, password: hashPassword };
+    if (img) userData.img = img;
+
+    const newUser = new User(userData);
+    await newUser.save();
+  } catch (err) {
+    console.log(err);
+    return 'Something went wrong';
+  }
+  revalidatePath('/login');
+  redirect('/login');
+};
+export const login = async formData => {
+  try {
+    const { email, password } = Object.fromEntries(formData);
+    console.log(email, password);
+    if (!email || !password) return 'Please fill all field';
+    connectToDB();
+    const user = await User.findOne({ email });
+    if (!user) return 'Email not registered';
+    await signIn('credentials', { email, password });
+  } catch (err) {
+    console.log(err);
+    return 'Something went wrong';
+  }
+  revalidatePath('/login');
 };
