@@ -1,9 +1,10 @@
 'use server';
 
 import { Post } from './modals';
-import { revalidatePath, revalidateTag } from 'next/cache';
+import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import connectToDB from './connectToDB';
+import { signIn, signOut } from './auth';
 
 let num = 1; // closure works
 export const sample = async formData => {
@@ -50,7 +51,9 @@ export const createPost = async (userId, formData) => {
   } catch (err) {
     console.error(err);
   }
-  revalidateTag('blog'); // Update cached posts
+  // revalidateTag('blog'); // Update cached posts //! not working
+  revalidatePath('/blog'); // Update cached posts
+
   redirect('/blog'); // Navigate to the new post page
 };
 export const deletePost = async formData => {
@@ -65,4 +68,11 @@ export const deletePost = async formData => {
   }
   revalidatePath('/blog'); // Update cached posts
   redirect('/blog');
+};
+
+export const handleSignIn = async () => {
+  await signIn();
+};
+export const handleSignOut = async () => {
+  await signOut();
 };
