@@ -9,17 +9,17 @@ const login = async credentials => {
   try {
     connectToDB();
     const user = await User.findOne({ email: credentials.email });
-    console.log(user);
     if (!user) throw new Error('Wrong credentials!');
     const isPasswordCorrect = await bcrypt.compare(
       credentials.password,
       user.password
     );
     if (!isPasswordCorrect) throw new Error('Wrong credentials!');
+    // console.log('user :', user, 'credentials :', credentials);
     return user;
   } catch (error) {
     console.log(error);
-    throw new Error('Failed to login');
+    return null;
   }
 };
 
@@ -46,7 +46,6 @@ export const {
   ],
   callbacks: {
     async signIn({ user, profile, account }) {
-      console.log('user :', user, 'account :', account, 'profile :', profile);
       try {
         if (account?.provider === 'github') {
           connectToDB();
@@ -62,6 +61,20 @@ export const {
             });
             await user.save();
             console.log('new user created :', user);
+          } else console.log('github user already registered');
+        } else if (account?.provider === 'credentials') {
+          connectToDB();
+          const authenticatedUser = await User.findOne({ email: user.email });
+          if (authenticatedUser) {
+            // console.log(account.provider, authenticatedUser);
+            return {
+              id: authenticatedUser.id,
+              name: authenticatedUser.username,
+              email: authenticatedUser.email,
+              image: authenticatedUser.img || null // Set to null if no image is available
+            };
+          } else {
+            return null;
           }
         }
       } catch (err) {

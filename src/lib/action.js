@@ -53,9 +53,9 @@ export const createPost = async (userId, formData) => {
   }
   // revalidateTag('blog'); // Update cached posts //! not working
   revalidatePath('/blog'); // Update cached posts
-
   redirect('/blog'); // Navigate to the new post page
 };
+
 export const deletePost = async formData => {
   try {
     const { id } = Object.fromEntries(formData);
@@ -99,21 +99,21 @@ export const register = async formData => {
     console.log(err);
     return 'Something went wrong';
   }
-  revalidatePath('/login');
+  // revalidatePath('/login');
   redirect('/login');
 };
+
 export const login = async formData => {
+  const { email, password } = Object.fromEntries(formData);
   try {
-    const { email, password } = Object.fromEntries(formData);
-    console.log(email, password);
     if (!email || !password) return 'Please fill all field';
     connectToDB();
     const user = await User.findOne({ email });
     if (!user) return 'Email not registered';
-    await signIn('credentials', { email, password });
   } catch (err) {
     console.log(err);
     return 'Something went wrong';
   }
-  revalidatePath('/login');
+  // signIn func from nextjs internally runs redirect so wrapping it in try/catch is a big no no https://nextjs.org/docs/app/api-reference/functions/redirect
+  await signIn('credentials', { email, password });
 };
