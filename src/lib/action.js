@@ -77,15 +77,17 @@ export const handleSignOut = async () => {
   await signOut();
 };
 
-export const register = async formData => {
+export const register = async (prevState, formData) => {
   try {
     const { username, email, img, password, passwordRepeat } =
       Object.fromEntries(formData);
-    if (!username || !email || !password) return 'Please fill all field';
-    if (password !== passwordRepeat) return 'Password do not match';
+    console.log('here');
+    if (!username || !email || !password)
+      return { error: 'Please fill all field' };
+    if (password !== passwordRepeat) return { error: 'Password do not match' };
     connectToDB();
     const user = await User.findOne({ email });
-    if (user) return 'Email already registered';
+    if (user) return { error: 'Email already registered' };
     const salt = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash(password, salt);
     const users = await User.find();
@@ -97,22 +99,21 @@ export const register = async formData => {
     await newUser.save();
   } catch (err) {
     console.log(err);
-    return 'Something went wrong';
+    return { error: 'Something went wrong' };
   }
-  // revalidatePath('/login');
   redirect('/login');
 };
 
 export const login = async formData => {
   const { email, password } = Object.fromEntries(formData);
   try {
-    if (!email || !password) return 'Please fill all field';
+    if (!email || !password) return { error: 'Please fill all field' };
     connectToDB();
     const user = await User.findOne({ email });
-    if (!user) return 'Email not registered';
+    if (!user) return { error: 'Email not registered' };
   } catch (err) {
     console.log(err);
-    return 'Something went wrong';
+    return { error: 'Something went wrong' };
   }
   // signIn func from nextjs internally runs redirect so wrapping it in try/catch is a big no no https://nextjs.org/docs/app/api-reference/functions/redirect
   await signIn('credentials', { email, password });

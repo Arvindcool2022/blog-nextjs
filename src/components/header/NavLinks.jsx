@@ -9,8 +9,8 @@ const routes = [
   { href: '/', name: 'home' },
   { href: '/about', name: 'about' },
   { href: '/contact', name: 'contact' },
-  { href: '/blog', name: 'blog' },
-  { href: '/fetchtest', name: 'test' }
+  { href: '/blog', name: 'blog' }
+  // { href: '/fetchtest', name: 'test' }
   // { href: '/forgot_password', name: 'forgot_password' },
   // { href: '/signup', name: 'signup' }
 ];
@@ -31,6 +31,7 @@ const NavLinks = ({ session }) => {
           'absolute left-0 right-0 top-full my-4 origin-top scale-y-0 overflow-hidden bg-[#0c0c22] text-opacity-0 transition-all sm:hidden',
           isOpen && 'scale-y-100 text-opacity-100'
         )}
+        onClick={() => setIsopen(p => !p)}
       >
         <LinkLayout session={session} />
       </div>

@@ -1,4 +1,3 @@
-import H1 from '@/components/ui/H1';
 import { createPost, deletePost } from '@/lib/action';
 
 export const metadata = { title: { absolute: 'Admin' } }; // to ignore the template

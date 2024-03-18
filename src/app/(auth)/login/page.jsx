@@ -37,7 +37,6 @@ export default async function Page() {
               Login with credentials
             </button>
           </form>
-          <hr />
           <Link
             href="/register"
             className="rounded-md bg-gray-500 px-6  py-2 text-2xl uppercase text-[#0c0c22] transition hover:bg-gray-300 active:scale-95"
