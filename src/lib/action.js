@@ -104,17 +104,20 @@ export const register = async (prevState, formData) => {
   redirect('/login');
 };
 
-export const login = async formData => {
+export const login = async (prevState, formData) => {
   const { email, password } = Object.fromEntries(formData);
   try {
     if (!email || !password) return { error: 'Please fill all field' };
     connectToDB();
     const user = await User.findOne({ email });
     if (!user) return { error: 'Email not registered' };
+    await signIn('credentials', { email, password });
   } catch (err) {
-    console.log(err);
-    return { error: 'Something went wrong' };
+    if (err.message.includes('CredentialsSignin')) {
+      return { error: 'Invalid Credentials!' };
+    }
+    throw err;
   }
-  // signIn func from nextjs internally runs redirect so wrapping it in try/catch is a big no no https://nextjs.org/docs/app/api-reference/functions/redirect
-  await signIn('credentials', { email, password });
+
+  //! signIn func from nextjs internally runs redirect so wrapping it in try/catch is a big no no https://nextjs.org/docs/app/api-reference/functions/redirect
 };
